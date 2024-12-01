@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1025775829001",
+    "project_id": "enutritionapp",
+    "storage_bucket": "enutritionapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1025775829001:android:ae0eaaacf1d91ed20038d8",
+        "android_client_info": {
+          "package_name": "com.enutrition.health"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD83NX550kVYdQ-D6ylpxLwWXqhcGJrfWE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,4 @@
+{
+  "java.compile.nullAnalysis.mode": "disabled",
+  "cmake.sourceDirectory": "H:/Documents/enutrition_app/windows/flutter/ephemeral/.plugin_symlinks/cloud_firestore/windows"
+}
