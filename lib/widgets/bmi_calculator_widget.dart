@@ -178,6 +178,24 @@ class _BMICalculatorWidgetState extends State<BMICalculatorWidget> {
   }
 
   // Find BMI Category Reference
+  // Future<DocumentReference?> _findBMICategoryReference() async {
+  //   try {
+  //     var bmiCategories = await _firestore
+  //         .collection('bmi_categories')
+  //         .where('min_value', isLessThanOrEqualTo: _bmi!)
+  //         .where('max_value', isGreaterThan: _bmi!)
+  //         .limit(1)
+  //         .get();
+
+  //     return bmiCategories.docs.isNotEmpty
+  //         ? bmiCategories.docs.first.reference
+  //         : null;
+  //   } catch (e) {
+  //     print('Error finding BMI category: $e');
+  //     return null;
+  //   }
+  // }
+
   Future<DocumentReference?> _findBMICategoryReference() async {
     try {
       var bmiCategories = await _firestore
@@ -192,6 +210,11 @@ class _BMICalculatorWidgetState extends State<BMICalculatorWidget> {
           : null;
     } catch (e) {
       print('Error finding BMI category: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content:
+                Text('Error: Please ensure the BMI category index exists.')),
+      );
       return null;
     }
   }
