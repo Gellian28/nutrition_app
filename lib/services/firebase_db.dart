@@ -22,44 +22,67 @@ Future<List<Map<String, dynamic>>> fetchDocumentsFromCollection(
 }
 
 // Function to fetch data from multiple collections
-Future<Map<String, List<Map<String, dynamic>>>>
-    fetchDataFromMultipleCollections() async {
-  var collectionNames = [
-    'registrations',
-    'health_assessments',
-    'users',
-  ];
-
-  Map<String, List<Map<String, dynamic>>> allData = {};
-
-  for (var collectionName in collectionNames) {
-    var documents = await fetchDocumentsFromCollection(collectionName);
-    allData[collectionName] = documents;
-  }
-
-  return allData;
-}
 
 Future<Map<String, dynamic>?> fetchUserDetails(String uid) async {
-  if (uid.isEmpty) {
-    print("Error: UID is empty");
-    return null; // Return null if UID is empty
-  }
-
   try {
-    // Attempt to fetch the user's details from the 'users' collection
-    DocumentSnapshot userDoc =
-        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    final snapshot = await FirebaseFirestore.instance
+        .collection('registrations')
+        .doc(uid)
+        .get();
 
-    if (userDoc.exists) {
-      // Return the user details if the document exists
-      return userDoc.data() as Map<String, dynamic>?;
+    if (snapshot.exists) {
+      return snapshot.data();
     } else {
-      print("Error: User document does not exist for UID: $uid");
+      print('Error: User document does not exist for UID: $uid');
       return null;
     }
   } catch (e) {
-    print("Error fetching user details: $e");
-    return null; // Handle any other errors gracefully
+    print('Error fetching user details: $e');
+    return null;
+  }
+}
+
+// Fetch BMI details
+Future<Map<String, dynamic>?> fetchBmiDetails(String uid) async {
+  try {
+    final snapshot =
+        await FirebaseFirestore.instance.collection('users_bmi').doc(uid).get();
+    if (snapshot.exists) {
+      return snapshot.data();
+    } else {
+      print('Error: User document does not exist for UID: $uid');
+      return null;
+    }
+  } catch (e) {
+    print('Error fetching user details: $e');
+    return null;
+  }
+}
+
+// Fetch health history details
+Future<Map<String, dynamic>?> fetchHealthHistory(String uid) async {
+  try {
+    final snapshot = await FirebaseFirestore.instance
+        .collection('health_assessments')
+        .doc(uid)
+        .get();
+
+    return snapshot.exists ? snapshot.data() : null;
+  } catch (e) {
+    print('Error fetching health history: $e');
+    return null;
+  }
+}
+
+// Fetch meal plan details
+Future<Map<String, dynamic>?> fetchMealPlan(String uid) async {
+  try {
+    final snapshot =
+        await FirebaseFirestore.instance.collection('mealPlans').doc(uid).get();
+
+    return snapshot.exists ? snapshot.data() : null;
+  } catch (e) {
+    print('Error fetching meal plan: $e');
+    return null;
   }
 }

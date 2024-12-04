@@ -131,39 +131,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-Widget _determineInitialPage() {
-  return StreamBuilder<User?>(
-    stream: FirebaseAuth.instance.authStateChanges(),
-    builder: (context, authSnapshot) {
-      if (authSnapshot.connectionState == ConnectionState.waiting) {
-        return const Center(child: CircularProgressIndicator());
-      }
-
-      if (authSnapshot.hasData && authSnapshot.data != null) {
-        return FutureBuilder<Map<String, dynamic>?>(
-          future: fetchUserDetails(authSnapshot.data!.uid),
-          builder: (context, userSnapshot) {
-            if (userSnapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            }
-
-            if (userSnapshot.hasData && userSnapshot.data != null) {
-              return DashboardPage(
-                uid: authSnapshot.data!.uid,
-                email: authSnapshot.data!.email ?? '',
-                userDetails: userSnapshot.data!,
-              );
-            }
-
-            // User exists in Firebase Auth but not in Firestore
-            return const LoginPage();
-          },
-        );
-      }
-
-      // No authenticated user
-      return const LoginPage();
-    },
-  );
-}
